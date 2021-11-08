@@ -18,13 +18,33 @@ import Profit from '../profile'
 export default class Home extends Component {
   state = {
     selectedTab: this.props.location.pathname === '/home' ? '/home/dashboard' : this.props.location.pathname,
+    navData: [
+      {
+        key: 'dashboard',
+        title: '首页',
+        icon: 'icon-ind',
+        path: '/home/dashboard'
+      },
+      {
+        key: 'dashboard',
+        title: '找房',
+        icon: 'icon-findHouse',
+        path: '/home/list'
+      },
+      {
+        key: 'dashboard',
+        title: '资讯',
+        icon: 'icon-infom',
+        path: '/home/news'
+      },
+      {
+        key: 'my',
+        title: '我的',
+        icon: 'icon-my',
+        path: '/home/profit'
+      }
+    ]
   }
-
-  // componentDidMount() {
-  //   let currentRouter = this.props.location.pathname
-  //   this.setState({ selectedTab: currentRouter })
-  // }
-
   render() {
     return (
       <div className="home">
@@ -37,10 +57,9 @@ export default class Home extends Component {
           <Redirect to="/home/dashboard" />
         </Switch>
         <TabBar unselectedTintColor="#888" tintColor="#21b97a" barTintColor="white" noRenderContent={true}>
-          <TabBar.Item title="首页" key="Life" icon={<i className="iconfont icon-ind" />} selectedIcon={<i className="iconfont icon-ind" />} selected={this.state.selectedTab === '/home/dashboard'} onPress={this.onPress('/home/dashboard')} />
-          <TabBar.Item title="找房" key="Koubei" icon={<i className="iconfont icon-findHouse" />} selectedIcon={<i className="iconfont icon-findHouse" />} selected={this.state.selectedTab === '/home/list'} onPress={this.onPress('/home/list')} />
-          <TabBar.Item title="资讯" key="Friend" icon={<i className="iconfont icon-infom" />} selectedIcon={<i className="iconfont icon-infom" />} selected={this.state.selectedTab === '/home/news'} onPress={this.onPress('/home/news')} />
-          <TabBar.Item title="我的" key="my" icon={<i className="iconfont icon-my" />} selectedIcon={<i className="iconfont icon-my" />} selected={this.state.selectedTab === '/home/profit'} onPress={this.onPress('/home/profit')} />
+          {this.state.navData.map(item => {
+            return <TabBar.Item title={item.title} key={item.key} icon={<i className={'iconfont ' + item.icon} />} selectedIcon={<i className={'iconfont ' + item.icon} />} selected={this.state.selectedTab === item.path} onPress={this.onPress(item.path)} />
+          })}
         </TabBar>
       </div>
     )
