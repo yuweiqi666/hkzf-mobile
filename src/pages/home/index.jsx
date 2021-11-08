@@ -58,7 +58,16 @@ export default class Home extends Component {
         </Switch>
         <TabBar unselectedTintColor="#888" tintColor="#21b97a" barTintColor="white" noRenderContent={true}>
           {this.state.navData.map(item => {
-            return <TabBar.Item title={item.title} key={item.key} icon={<i className={'iconfont ' + item.icon} />} selectedIcon={<i className={'iconfont ' + item.icon} />} selected={this.state.selectedTab === item.path} onPress={this.onPress(item.path)} />
+            return (
+              <TabBar.Item
+                title={item.title}
+                key={item.key}
+                icon={<i className={'iconfont ' + item.icon} />}
+                selectedIcon={<i className={'iconfont ' + item.icon} />}
+                selected={this.state.selectedTab === item.path}
+                onPress={this.onPress(item.path)}
+              />
+            )
           })}
         </TabBar>
       </div>
