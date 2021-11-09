@@ -45,6 +45,14 @@ export default class Home extends Component {
       }
     ]
   }
+
+  componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate')
+    if (prevProps.location.pathname !== this.props.location.pathname) {
+      this.setState({ selectedTab: this.props.location.pathname })
+    }
+  }
+
   render() {
     return (
       <div className="home">
