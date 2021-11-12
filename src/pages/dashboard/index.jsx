@@ -4,7 +4,7 @@ import { Carousel, Flex } from 'antd-mobile'
 
 import './index.scss'
 
-import { getSwiperData } from '../../apis/dashboard'
+import { getSwiperData, getHouseGroup } from '../../apis/dashboard'
 
 import nav1Img from '../../assets/images/nav-1.png'
 import nav2Img from '../../assets/images/nav-2.png'
@@ -39,15 +39,24 @@ const navData = [
 export default class Dashboard extends Component {
   state = {
     swiperData: [],
-    isSwiperLoaded: false
+    isSwiperLoaded: false,
+    houseGroupData: []
   }
 
   async componentDidMount() {
-    const { data } = await getSwiperData()
+    // 获取轮播图数据
+    const { data: swiperData } = await getSwiperData()
 
-    const imgs = data.body
+    const imgs = swiperData.body
 
     this.setState({ swiperData: imgs, isSwiperLoaded: true })
+
+    // 获取租房小组数据
+    const { data: houseGroupData } = await getHouseGroup()
+
+    const houses = houseGroupData.body
+
+    this.setState({ houseGroupData: houses })
   }
 
   renderSwiper = () => {
@@ -67,6 +76,20 @@ export default class Dashboard extends Component {
     ))
   }
 
+  renderGroup = () => {
+    return this.state.houseGroupData.map(item => (
+      <div key={item.id} className="group-item">
+        <div className="group-item-wrapper">
+          <span className="group-text">
+            <span className="group-title">{item.title}</span>
+            <span className="group-desc">{item.desc}</span>
+          </span>
+          <img className="group-img" src={'http://localhost:8080' + item.imgSrc} alt="" />
+        </div>
+      </div>
+    ))
+  }
+
   render() {
     return (
       <div>
@@ -82,6 +105,14 @@ export default class Dashboard extends Component {
         </div>
         {/* 导航菜单 */}
         <Flex className="nav">{this.renderNav()}</Flex>
+        {/* 租房小组 */}
+        <div className="group">
+          <div className="group-top">
+            <h3 className="group-top-text">租房小组</h3>
+            <div className="group-top-more">更多</div>
+          </div>
+          <div className="group-content">{this.renderGroup()}</div>
+        </div>
       </div>
     )
   }
